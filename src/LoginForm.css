@@ -1,0 +1,14 @@
+.input-field{
+    color:red;
+    font-size:20px;
+    font-family:"Roboto";
+
+}
+
+::placeholder{
+    color:'red',
+}
+.form-field{
+    color:red;
+
+}
