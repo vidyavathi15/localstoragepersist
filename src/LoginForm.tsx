@@ -22,6 +22,7 @@ function LoginForm() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState({})
   const [showSubmitError, setShowSubmitError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const navigated = useNavigate();
@@ -47,18 +48,25 @@ function LoginForm() {
     };
 
     const res = await fetch(loginUrl, options);
+    console.log(res)
     const data = await res.json();
+    console.log(data)
 
     if (res.ok) {
       onSubmitSuccess(data.jwt_token);
+      setUser(data)
+      localStorage.setItem("user",data)
     } else {
       onSubmitFailure(data.error_msg);
     }
   };
 
+  console.log(user)
+
   return (
     <div style={{ padding: 30 }}>
-      <Paper>
+      
+      <Paper sx={{marginTop:5}} elevation={10} >
         <Grid container
           sx={{
             display: "flex",
@@ -73,7 +81,8 @@ function LoginForm() {
               onChange={(e) => setUsername(e.target.value)}
               label="username"
               type="text"
-              sx={{ m: 3 }}
+              helperText="Enter Username"
+              sx={{ m: 3 }} 
             />
           </Grid>
 
@@ -83,7 +92,9 @@ function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
-              sx={{ m: 3 }}
+              helperText="Enter Password"
+              sx={{ m: 3 }} error required 
+              
             />
           </Grid>
           <Grid item xs={12}>
@@ -103,7 +114,10 @@ function LoginForm() {
               onClick={onSubmitForm}
               variant="contained"
               color="secondary"
-              fullWidth
+              fullWidth 
+              sx={{marginBottom:5}} 
+
+
             >
               Login
             </Button>
